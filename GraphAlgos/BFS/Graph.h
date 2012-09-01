@@ -48,8 +48,10 @@ class Graph {
 		bool BFS_data (T data);			// search the node with t data
 
 	private:
-		bool BFS (Graph<T> *G,tNode<T> *source, tNode<T> *t);
+		//bool BFS (Graph<T> *G,tNode<T> *source, tNode<T> *t);
+		struct tNode<T>* BFS (Graph<T> *G,tNode<T> *source, tNode<T> *t);
 		bool isEdgePresent (struct tEdge<T> *e);
+		void showPath (tNode<T> *source, tNode<T> *t);
 };
 
 //template <class T>

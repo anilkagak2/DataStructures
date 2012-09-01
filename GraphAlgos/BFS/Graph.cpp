@@ -15,6 +15,20 @@ bool Graph<T>::isEdgePresent (struct tEdge<T> *e) {
 }
 
 template <class T>
+void Graph<T>::showPath (tNode<T> *source, tNode<T> *t) {
+	if (source == t) 
+		cout << source->data << " -> ";
+
+	else if (t->predecessor == NULL)
+		cout << "No path from source to this node exists\n";
+
+	else {
+		showPath (source, t->predecessor);
+		cout << t->data << " -> ";
+	}
+}
+
+template <class T>
 void Graph<T>::takeInput () {
 	int numOfVertices = 0;
 	cout << "Enter the number of vertices \n";
@@ -81,14 +95,25 @@ template <class T>
 bool Graph<T>::BFS_data (T data) {
 	struct tNode<string> *node = new (struct tNode<string>);
 	node->data = data;
-	return BFS (this,vertices[0],node);
+//	return BFS (this,vertices[0],node);
+	struct tNode<string> *tn =  BFS (this,vertices[0],node);
+
+	delete node;
+	if (tn) {
+		showPath (vertices[0],tn);
+		return true;
+	}
+
+	return false;
 }
 
 // searches node t in the graph
+//bool Graph<T>::BFS (Graph<T> *G,tNode<T> *source, tNode<T> *t) {
 template <class T>
-bool Graph<T>::BFS (Graph<T> *G,tNode<T> *source, tNode<T> *t) {
+struct tNode<T>* Graph<T>::BFS (Graph<T> *G,tNode<T> *source, tNode<T> *t) {
 	queue<struct tNode<T>* > bfsQ;
-	bool foundT = false;
+//	bool foundT = false;
+	struct tNode<T> *foundNode = NULL;
 
 	// initialize all the nodes with state WHITE, distance 0 & predecessor = NULL
 	for (int i = 0; i != G->vertices.size (); i++) {
@@ -110,7 +135,8 @@ bool Graph<T>::BFS (Graph<T> *G,tNode<T> *source, tNode<T> *t) {
 		struct tNode<T> *u = bfsQ.front ();
 		bfsQ.pop ();
 
-		if (u->data == t->data) foundT = true;
+		if (u->data == t->data) //foundT = true;
+			foundNode = u;
 
 		for (int i = 0; i != u->adjList.size (); i++) {
 			struct tNode<T> *v = u->adjList[i];
@@ -125,5 +151,6 @@ bool Graph<T>::BFS (Graph<T> *G,tNode<T> *source, tNode<T> *t) {
 		}
 //		u->state = BLACK;
 	}
-	return foundT;
+//	return foundT;
+	return foundNode;
 }
