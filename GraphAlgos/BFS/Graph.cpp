@@ -100,7 +100,8 @@ bool Graph<T>::BFS (Graph<T> *G,tNode<T> *source, tNode<T> *t) {
 	}
 	
 	// initialize the source node
-	source->state = GRAY;
+	source->state = BLACK;
+//	source->state = GRAY;
 	source->distance = 0;
 	source->predecessor = NULL;
 
@@ -115,13 +116,14 @@ bool Graph<T>::BFS (Graph<T> *G,tNode<T> *source, tNode<T> *t) {
 			struct tNode<T> *v = u->adjList[i];
 
 			if (v->state == WHITE) {
-				v->state = GRAY;
+//				v->state = GRAY;
+				v->state = BLACK;
 				v->distance = u->distance + 1;
 				v->predecessor = u;
 				bfsQ.push (v);
 			}
 		}
-		u->state = BLACK;
+//		u->state = BLACK;
 	}
 	return foundT;
 }
